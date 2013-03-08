@@ -736,8 +736,9 @@ VimBuffer.prototype.yankLine = function(y)
 
 VimBuffer.prototype.pasteLine = function(x, y)
 {
-	this.set.modified = true;
-
-  this.lines[x+1] = this.pasteBuffer[0];
+    this.set.modified = true;
+    if ( this.pasteBuffer.length > 0 )
+        this.lines[x+1] = this.pasteBuffer.shift();
+    
 }
 
