@@ -347,6 +347,17 @@ Vim.prototype.execScript = function(script)
 		this.tab_id++;
 		this.win = tab;
 	}
+	else if (result = /^o(pen)?(\s+([a-zA-Z0-9._\-]+))?$/.exec(script)) {
+		var fname = result[3];
+		var file = this.fs.open(fname);
+
+		if (file.constructor === String)
+			file = this.fs.create(fname);
+
+	        this.win.buffer.name = fname;
+		this.win.buffer.setText(file.getData() || '');
+		this.win.buffer.modified = true;
+  }
 	else if (result = /^w(q)?(\s+([a-zA-Z0-9._\-]+))?$/.exec(script)) {
 		/* result:
 		 * 		[0] -> the whole string
