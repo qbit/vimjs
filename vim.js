@@ -319,7 +319,7 @@ Vim.prototype.execScript = function(script)
 					"No write since last change (add ! to override)");
 		else this.win.close();
 	}
-	else if (result = /^set\s+((no)?([a-z]+)(=(\d+))?)$/.exec(script)) {
+	else if (result = /^set\s+((no)?([a-z]+)(=(\d+))?)(!)?$/.exec(script)) {
 		/* result:
 		 * 		[0] -> the whole string
 		 * 		[1] -> the whole set
@@ -327,17 +327,28 @@ Vim.prototype.execScript = function(script)
 		 * 		[3] -> the option to set
 		 * 		[4] -> has "=value" part or not
 		 * 		[5] -> the value to set
+		 * 		[6] -> toggle
 		 */
 		if (result[2] && result[4])
 			this._error(474, "Invalid argument: " + result[1]);
 		else {
 			if (result[2]) result[5] = false;
 			else if (!result[5]) result[5] = true;
-			if (this.win.set[result[3]] !== undefined)
-				this.win.set[result[3]] = result[5];
-			else if (this.win.buffer.set[result[3]] !== undefined)
-				this.win.buffer.set[result[3]] = result[5];
-			else this._error(474, "Invalid argument: " + result[1]);
+			if (this.win.set[result[3]] !== undefined) {
+				if (result[6]) {
+					this.win.set[result[3]] = ! this.win.set[result[3]];
+				} else {
+					this.win.set[result[3]] = result[5];
+				}
+			} else if (this.win.buffer.set[result[3]] !== undefined) {
+				if (result[6]) {
+					this.win.buffer.set[result[3]] = ! this.win.buffer.set[result[3]];
+				} else {
+					this.win.buffer.set[result[3]] = result[5];
+				}
+			} else {
+				this._error(474, "Invalid argument: " + result[1]);
+			}
 		}
 	}
 	else if (script == "tabnew") {
