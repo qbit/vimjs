@@ -217,7 +217,7 @@ Vim.prototype.processKey = function(ch)
 				this.is_cmd = false;
 				this.repeat = "";
 				this.cmd    = "";
-				vim_cmds[i].callback(this, result);
+        vim_cmds[i].callback(this, result);
 				break;
 			}
 		}
@@ -669,6 +669,7 @@ function VimBuffer(vim, text, name)
 	this.vim = vim;
 	this.setText(text);
 	this.name = (name ? name : "[No Name]");
+  this.pasteBuffer = [];
 	this.set = {
 		ro: false,
 		modified: false
@@ -726,5 +727,17 @@ VimBuffer.prototype.killLine = function(y)
 	this.lines.splice(y, 1);
 	if (this.lines.length == 0)
 		this.lines[0] = '';
+}
+
+VimBuffer.prototype.yankLine = function(y)
+{
+  this.pasteBuffer.push( this.lines[y] );
+}
+
+VimBuffer.prototype.pasteLine = function(x, y)
+{
+	this.set.modified = true;
+
+  this.lines[x+1] = this.pasteBuffer[0];
 }
 
