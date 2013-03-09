@@ -6,11 +6,15 @@
  * Under GPLv2. ABSOLUTELY NO WARRANTY!
  **********************************************************************/
 
-var convas = new Convas("vimjs", 180, 40, 12);
+var w = localStorage.width || 180, h = localStorage.height || 40,
+fontSize = localStorage.fontSize || 12,
+font = localStorage.font || 'Mono';
+
+var convas = new Convas("vimjs", w, h, fontSize);
 var vim;
 
 (function userLogin(){
-	convas.font_name = 'Anonymous Pro';
+	convas.font_name = font;
 	convas.write("Welcome to vim.js!\n", true);
 	setTimeout( function() {
 		var fs = new FSLocalStorage();
