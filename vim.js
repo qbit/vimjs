@@ -704,7 +704,8 @@ function VimBuffer(vim, text, name)
 	this.vim = vim;
 	this.setText(text);
 	this.name = (name ? name : "[No Name]");
-  this.pasteBuffer = [];
+	this.pasteBuffer = [];
+	this.currentPaste = '';
 	this.set = {
 		ro: false,
 		modified: false
@@ -769,11 +770,24 @@ VimBuffer.prototype.yankLine = function(y)
   this.pasteBuffer.push( this.lines[y] );
 }
 
-VimBuffer.prototype.pasteLine = function(x, y)
+VimBuffer.prototype.pasteLineAbove = function(x, y)
 {
-    this.set.modified = true;
-    if ( this.pasteBuffer.length > 0 )
-        this.lines[x+1] = this.pasteBuffer.shift();
+	if ( this.pasteBuffer.length > 0 || this.currentPaste !== '' ) {
+		this.set.modified = true;
+		this.currentPaste = this.pasteBuffer.shift() || this.currentPaste;
+		this.lines.splice(x,0, this.currentPaste);
+	}
+}
+
+VimBuffer.prototype.pasteLineBelow = function(x, y)
+{
+	console.log( 'paste', x, this.currentPaste );
+	if ( this.pasteBuffer.length > 0 || this.currentPaste !== '' ) {
+		this.set.modified = true;
+		this.currentPaste = this.pasteBuffer.shift() || this.currentPaste;
+		console.log( this.currentPaste );
+		this.lines.splice(x+1,0, this.currentPaste);
+	}
     
 }
 
