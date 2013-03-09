@@ -1,0 +1,24 @@
+{
+	"manifest_version": 2,
+	"app": {
+		"launch": {
+			"local_path": "index_dev.htm"
+		}
+	},
+	"oauth2": {
+		"client_id": "829928288155.apps.googleusercontent.com",
+		"scopes": [
+			"https://docs.google.com/feeds/",
+			"https://docs.googleusercontent.com/",
+			"https://spreadsheets.google.com/feeds/",
+			"https://www.googleapis.com/auth/drive"
+		]
+	},
+	"description": "vim - in your js",
+	"icons": {
+		"128": "vim_logo128.png"
+	},
+	"name": "vimjs",
+	"options_page": "options.html",
+	"version": "0.0.1"
+}
