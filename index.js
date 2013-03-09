@@ -6,26 +6,34 @@
  * Under GPLv2. ABSOLUTELY NO WARRANTY!
  **********************************************************************/
 
-var convas = new Convas("vimjs", 80, 24, 16);
+var convas = new Convas("vimjs", 180, 40, 12);
 var vim;
 
 (function userLogin(){
-	 convas.write("Welcome to vim.js!\n", true);
-	 convas.write("You can login with \"local\"" +
-			 " for local use.\n\n", true);
-	 convas.write("login: ", true);
-	 convas.readLine(true, function(login){
-		 if (login == "local") {
-			 var fs = new FSLocalStorage();
-			 vim = new Vim(convas, fs, userLogin);
-		 }
-		 else {
-			 convas.write("Password: ", true);
-			 convas.readLine(false, function(password){
-				 convas.write("\nLogin incorrect\n\n", true);
-				 userLogin();
-			 });
-		 }
-	 });
+	convas.font_name = 'Anonymous Pro';
+	convas.write("Welcome to vim.js!\n", true);
+	setTimeout( function() {
+		// var fs = new FSLocalStorage();
+		var fs = new GDriveStorage();
+		vim = new Vim( convas, fs, function() {
+			console.log( 'restart' );
+		});
+	},1000);
+	 // convas.write("You can login with \"local\"" +
+			 // " for local use.\n\n", true);
+	 // convas.write("login: ", true);
+	 // convas.readLine(true, function(login){
+		 // if (login == "local") {
+			 // var fs = new FSLocalStorage();
+			 // vim = new Vim(convas, fs, userLogin);
+		 // }
+		 // else {
+			 // convas.write("Password: ", true);
+			 // convas.readLine(false, function(password){
+				 // convas.write("\nLogin incorrect\n\n", true);
+				 // userLogin();
+			 // });
+		 // }
+	 // });
 })();
 
