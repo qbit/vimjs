@@ -110,6 +110,22 @@ FSDir.prototype.create = function(name)
 
 /**********************************************************************
  *
+ * FSGdriveStorage
+ *
+ */
+
+// to the local storage file system, user is useless,
+// for it must always be 'local'. So it is ignored.
+function GDriveStorage(user)
+{
+}
+
+GDriveStorage.prototype.handleAuth = function( authResult )
+{
+}
+
+/**********************************************************************
+ *
  * FSLocalStorage
  *
  */
