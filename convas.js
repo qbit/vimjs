@@ -46,14 +46,17 @@ function Convas(id, w, h, font_size)
 	this.color_scheme = new ConvasColorSchemeXTerm();
 
 	// create canvas and initialize it
-	document.write("<canvas id='" + this.id
-			+ "' width=" + (w * this.font_w + 4)
-			+ " height=" + (h * this.font_h + 4)
-			+ " style='cursor: text; border: solid #0f0 1px;'>"
-			+ "Sorry!</canvas>");
-	this.canvas = eval(this.id);
+	this.canvas = document.createElement('canvas');
+	this.canvas.id = this.id;
+	this.canvas.width = (w * this.font_w + 4);
+	this.canvas.height = (h * this.font_h + 4);
+	this.canvas.style.cursor = 'text';
+	this.canvas.style.border = 'solid #0f0 1px';
+	document.body.appendChild( this.canvas );
+
 	this.c = this.canvas.getContext("2d");
 	this.c.textAlign = "left";
+
 
 	// listen events
 	var that = this;
