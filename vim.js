@@ -213,12 +213,14 @@ Vim.prototype.processKey = function(ch)
 
 		for (var i in vim_cmds) {
 			var result;
-			if (result = vim_cmds[i].regex.exec(this.cmd)) {
-				this.is_cmd = false;
-				this.repeat = "";
-				this.cmd    = "";
-        vim_cmds[i].callback(this, result);
-				break;
+			if ( vim_cmds[i].regex ) { 
+				if (result = vim_cmds[i].regex.exec(this.cmd)) {
+					this.is_cmd = false;
+					this.repeat = "";
+					this.cmd    = "";
+					vim_cmds[i].callback(this, result);
+					break;
+				}
 			}
 		}
 	}
@@ -318,6 +320,17 @@ Vim.prototype.execScript = function(script)
 			this._error(37,
 					"No write since last change (add ! to override)");
 		else this.win.close();
+	}
+	else if (result = /^([a-z])(\d+)$/.exec(script)) {
+		console.log( 'eh' );
+		for (var i in vim_cmds) {
+			var sresult;
+			if ( vim_cmds[i].multi_regex ) {
+				if (sresult = vim_cmds[i].multi_regex.exec( result[1] )) {
+					vim_cmds[i].callback(this, sresult, result[2]);
+				}
+			}
+		}
 	}
 	else if (result = /^set\s+((no)?([a-z]+)(=(\d+))?)(!)?$/.exec(script)) {
 		/* result:
