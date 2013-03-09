@@ -151,6 +151,16 @@ vim_cmds.push({
 	}
 });
 
+vim_cmds.push( {
+	multi_regex: /^d$/,
+	callback: function(vim, result, count) {
+		for ( var i = 0; i < count; i++ ) {
+			vim.win.buffer.killLine(vim.win.y);
+		}
+		vim.win.moveCursor(0, 0);
+	}
+});
+
 vim_cmds.push({
 	regex: /^dd$/,
 	callback: function(vim) {
@@ -169,7 +179,27 @@ vim_cmds.push({
 vim_cmds.push({
 	regex: /^p$/,
 	callback: function(vim) {
-		vim.win.buffer.pasteLine(vim.win.y);
+		vim.win.buffer.pasteLineBelow(vim.win.y);
+	}
+});
+vim_cmds.push({
+	regex: /^P$/,
+	callback: function(vim) {
+		vim.win.buffer.pasteLineAbove(vim.win.y);
+	}
+});
+
+vim_cmds.push({
+	regex: /^r$/,
+	callback: function(vim) {
+		vim.win.buffer.replace();
+	}
+});
+
+vim_cmds.push({
+	regex: /^\cA$/,
+	callback: function(vim) {
+		vim.win.buffer.inc();
 	}
 });
 
