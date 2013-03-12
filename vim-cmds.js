@@ -177,6 +177,13 @@ vim_cmds.push({
 });
 
 vim_cmds.push({
+	regex: /^Y$/,
+	callback: function(vim) {
+		vim.win.buffer.yankLine(vim.win.y);
+	}
+});
+
+vim_cmds.push({
 	regex: /^p$/,
 	callback: function(vim) {
 		vim.win.buffer.pasteLineBelow(vim.win.y);
