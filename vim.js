@@ -612,6 +612,16 @@ VimWindow.prototype.input = function(ch)
 	}
 }
 
+VimWindow.prototype.search = function( str ) {
+	// result[0] = line
+	// result[1] = char
+	var result = this.buffer.search( this.x, this.y, str );
+	console.log( result );
+	this.y = result[0];
+	this.x = result[1] - 1;
+	this.moveCursor(1, 0);
+}
+
 
 VimWindow.prototype.goBOL = function(skip_blank)
 {
@@ -794,6 +804,20 @@ VimBuffer.prototype.killChar = function(x, y)
 
 	var line = this.lines[y];
 	this.lines[y] = line.slice(0, x) + line.slice(x+1);
+}
+
+VimBuffer.prototype.search = function( x, y, str ) {
+	var linenum, l;
+	for ( linenum = 0, l = this.lines.length; linenum < l; linenum++ ) {
+		var idx = this.lines[linenum].search( new RegExp( str ));
+		console.log( 'line: %s char: %s x: %s, y: %s', linenum, idx, x, y );
+		if ( idx !== -1 ) {
+			if ( linenum >= y && idx > x+1 ) {
+				return [ linenum, idx ];
+			} 
+		}
+
+	}
 }
 
 

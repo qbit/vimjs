@@ -32,6 +32,14 @@ vim_cmds.push({
 });
 
 vim_cmds.push({
+	regex: /^\/(\w)$/,
+	callback: function(vim, result) {
+		console.log( 'search:', result );
+		vim.win.search( result[1] );
+	}
+});
+
+vim_cmds.push({
 	regex: /^I$/,
 	callback: function(vim) {
 		vim.win.goBOL();
