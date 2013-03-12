@@ -371,12 +371,26 @@ Vim.prototype.execScript = function(script)
 		this.tab_id++;
 		this.win = tab;
 	}
-	else if (result = /^o(pen)?(\s+([a-zA-Z0-9._\-]+))?$/.exec(script)) {
+	else if (result = /^e(dit)?(\s+([a-zA-Z0-9._\-]+))?$/.exec(script)) {
 		var fname = result[3];
 		var file = this.fs.open(fname);
 
 		if (file.constructor === String)
 			file = this.fs.create(fname);
+
+	        this.win.buffer.name = fname;
+		this.win.buffer.setText(file.getData() || '');
+		this.win.buffer.modified = true;
+  }
+	else if (result = /^o(pen)?(\s+([a-zA-Z0-9._\-]+))?$/.exec(script)) {
+		var fname = result[3];
+		var file = this.fs.open(fname);
+
+		if (file.constructor === String) {
+			this._error(32, "No file name");
+			return;
+			//file = this.fs.create(fname);
+    }
 
 	        this.win.buffer.name = fname;
 		this.win.buffer.setText(file.getData() || '');
