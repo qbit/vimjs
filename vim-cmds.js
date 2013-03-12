@@ -170,14 +170,7 @@ vim_cmds.push({
 });
 
 vim_cmds.push({
-	regex: /^yy$/,
-	callback: function(vim) {
-		vim.win.buffer.yankLine(vim.win.y);
-	}
-});
-
-vim_cmds.push({
-	regex: /^Y$/,
+	regex: /^yy$|^Y$/,
 	callback: function(vim) {
 		vim.win.buffer.yankLine(vim.win.y);
 	}
