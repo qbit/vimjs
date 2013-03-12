@@ -1,4 +1,3 @@
-
 /**** fs.js ***********************************************************
  * File System: A UNIX style file system.
  *
@@ -21,27 +20,29 @@ function FSFile(fs, id)
 
 FSFile.prototype.getData = function()
 {
-	if (this.data === undefined)
+	if (this.data === undefined) {
 		this.data = this.fs.fs[this.id].data;
+	}
 	return this.data;
-}
+};
 
 
 FSFile.prototype.setData = function(data)
 {
 	this.data = data;
-}
+};
 
 
 // flush data
 FSFile.prototype.close = function()
 {
-	if (this.data === undefined)
+	if (this.data === undefined) {
 		return;
+	}
 
 	this.fs.fs[this.id].data = this.data;
 	this.fs._save();
-}
+};
 
 /**********************************************************************
  *
@@ -58,27 +59,34 @@ function FSDir(fs, id)
 
 FSDir.prototype.getFile = function(name)
 {
-	if (name == '.')	// self
+	if (name === '.') {	// self
 		return this;
-	if (name == '..')	// parent
+	}
+	if (name === '..') {	// parent
 		return new FSDir(this.fs, this.fs.fs[this.id].pid);
+	}
 
 	// normal file or directory
 	var id = this.fs.findFile(name, this.id);
-	if (id == -1) return "File `" + name + "' not found.";
-	if (this.fs.fs[id].type == 'd')		// dir
+	if (id === -1){  
+		return "File `" + name + "' not found.";
+	}
+	if (this.fs.fs[id].type === 'd') {		// dir
 		return new FSDir(this.fs, id);
-	if (this.fs.fs[id].type == '-')		// normal file
+	}
+	if (this.fs.fs[id].type === '-') {		// normal file
 		return new FSFile(this.fs, id);
+	}
 	return "There must be a bug!";		// should never arrive here
-}
+};
 
 
 FSDir.prototype.mkdir = function(name)
 {
 	// check if file exists
-	if (this.fs.findFile(name, this.id) != -1)
+	if (this.fs.findFile(name, this.id) !== -1) {
 		return "`" + name + "' already exists.";
+	}
 
 	var id = this.fs.fs.push({
 			name: name,
@@ -88,15 +96,16 @@ FSDir.prototype.mkdir = function(name)
 		}) - 1;
 	this.fs._save();
 	return new FSDir(this.fs, id);
-}
+};
 
 
 // create a normal file
 FSDir.prototype.create = function(name)
 {
 	// check if file exists
-	if (this.fs.findFile(name, this.id) != -1)
+	if (this.fs.findFile(name, this.id) !== -1) {
 		return "`" + name + "' already exists.";
+	}
 
 	var id = this.fs.fs.push({
 			name: name,
@@ -122,7 +131,7 @@ function GDriveStorage(user)
 
 GDriveStorage.prototype.handleAuth = function( authResult )
 {
-}
+};
 
 /**********************************************************************
  *
@@ -142,9 +151,13 @@ function FSLocalStorage(user)
 FSLocalStorage.prototype.cd = function(path)
 {
 	var dir = this.getFileByPath(path);
-	if (dir instanceof FSDir) this.cwd = dir;			// ok
-	else if (dir.constructor === String) return dir;	// error
-	else return "`" + path + "' is not a directory.";	// error
+	if (dir instanceof FSDir) { 
+		this.cwd = dir;			// ok
+	} else if (dir.constructor === String) { 
+		return dir;	// error
+	} else {
+		return "`" + path + "' is not a directory.";	// error
+	}
 }
 
 
