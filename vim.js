@@ -291,6 +291,7 @@ Vim.prototype._error = function(errno, msg)
 
 Vim.prototype.execScript = function(script)
 {
+	var self = this;
 	if (script.indexOf('\n') != -1) {
 		this._error(0, "TODO");
 	}
@@ -841,8 +842,7 @@ VimBuffer.prototype.killLine = function(y)
 		this.lines[0] = '';
 }
 
-VimBuffer.prototype.yankLine = function(y)
-{
+VimBuffer.prototype.yankLine = function(y) {
   this.pasteBuffer.push( this.lines[y] );
 }
 
