@@ -6,7 +6,7 @@
  * Under GPLv2. ABSOLUTELY NO WARRANTY!
  **********************************************************************/
 
-var w = localStorage.width || 180, h = localStorage.height || 40,
+var w = localStorage.width || 80, h = localStorage.height || 20,
 fontSize = localStorage.fontSize || 12,
 font = localStorage.font || 'Mono';
 
