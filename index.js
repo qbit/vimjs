@@ -17,8 +17,8 @@ var vim;
 	convas.font_name = font;
 	convas.write("Welcome to vim.js!\n", true);
 	setTimeout( function() {
-		var fs = new FSLocalStorage();
-		// var fs = new GDriveStorage();
+		// var fs = new FSLocalStorage();
+		var fs = new GDriveStorage();
 		vim = new Vim( convas, fs, function() {
 			console.log( 'restart' );
 		});
