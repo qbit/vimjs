@@ -115,7 +115,48 @@ FSDir.prototype.create = function(name)
 		}) - 1;
 	this.fs._save();
 	return new FSFile(this.fs, id);
+};
+
+/**********************************************************************
+ *
+ * CrromeStore
+ *
+ */
+
+// to the local storage file system, user is useless,
+// for it must always be 'local'. So it is ignored.
+function ChromeStorage() {
 }
+
+ChromeStorage.prototype.cd = function() {
+};
+ChromeStorage.prototype.ls = function() {
+};
+ChromeStorage.prototype.tree = function() {
+};
+ChromeStorage.prototype.rm = function() {
+};
+ChromeStorage.prototype.open = function( name, fn ) {
+	chrome.fileSystem.chooseEntry( {type:'openWritableFile'}, function(entry){ 
+		entry.file( function(file) {
+			console.log( file );
+			var reader = new FileReader();
+			reader.onloadend = function(e) {
+				fn.call( null, { 
+					data: this.result,
+					name: file.name
+
+				} );
+			};
+
+			reader.readAsText(file);
+		});
+	});
+};
+ChromeStorage.prototype.mkdir = function() {
+};
+ChromeStorage.prototype.create = function() {
+};
 
 /**********************************************************************
  *

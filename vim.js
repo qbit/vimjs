@@ -373,28 +373,38 @@ Vim.prototype.execScript = function(script)
 	}
 	else if (result = /^e(dit)?(\s+([a-zA-Z0-9._\-]+))?$/.exec(script)) {
 		var fname = result[3];
-		var file = this.fs.open(fname);
+		this.fs.open(fname, function( result ) {
+			console.log( result );
 
-		if (file.constructor === String)
-			file = this.fs.create(fname);
+			self.win.buffer.name = result.name;
+			self.win.buffer.setText(result.data);
+			self.win.buffer.modified = true;
+		});
 
-	        this.win.buffer.name = fname;
-		this.win.buffer.setText(file.getData() || '');
-		this.win.buffer.modified = true;
-  }
+	}
 	else if (result = /^o(pen)?(\s+([a-zA-Z0-9._\-]+))?$/.exec(script)) {
 		var fname = result[3];
-		var file = this.fs.open(fname);
+		this.fs.open(fname, function( result ) {
+			console.log( result );
+			if (file.constructor === String)
+				file = self.fs.create(fname);
 
-		if (file.constructor === String) {
-			this._error(32, "No file name");
-			return;
-			//file = this.fs.create(fname);
-    }
+			self.win.buffer.name = fname;
+			self.win.buffer.setText(result);
+			self.win.buffer.modified = true;
+		});
+		// var fname = result[3];
+		// var file = this.fs.open(fname);
+
+		// if (file.constructor === String) {
+		// 	this._error(32, "No file name");
+		// 	return;
+		// 	//file = this.fs.create(fname);
+		// }
 
 	        this.win.buffer.name = fname;
-		this.win.buffer.setText(file.getData() || '');
-		this.win.buffer.modified = true;
+		// this.win.buffer.setText(file.getData() || '');
+		// this.win.buffer.modified = true;
   }
 	else if (result = /^w(q)?(\s+([a-zA-Z0-9._\-]+))?$/.exec(script)) {
 		/* result:

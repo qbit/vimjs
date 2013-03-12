@@ -1,30 +1,18 @@
 {
 	"manifest_version": 2,
+	"key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDHxsVZmOlIjsrc8+3fwjOBVugwTwqAKDyOoFiupVANnxepS6InJUszGPXZKD/c8daaVtA6V5jO7URN3eRM40dxtPYlSgzE1p3naGxCVXpbpcYTvu4d2Q+VqrZsdCAZQFydGth9KNJAgjJg5hXbZwLYUQ+50PNz36haPkXL3P7kOQIDAQAB",
 	"app": {
-		"launch": {
-			"local_path": "index_dev.htm"
+		"background": {
+			"scripts": [
+				"app.js"
+			]
 		}
 	},
-	"oauth2": {
-		"client_id": "829928288155.apps.googleusercontent.com",
-		"scopes": [
-			"https://docs.google.com/feeds/",
-			"https://docs.googleusercontent.com/",
-			"https://spreadsheets.google.com/feeds/",
-			"https://www.googleapis.com/auth/drive"
-		]
-	},
-	"permissions": [ 
-		"unlimitedStorage"
+	"permissions": [
+		"storage",
+		"fileSystem", 
+		"fileSystem.write"
 	],
-  "permissions": [
-    "experimental",
-    "https://docs.google.com/feeds/",
-    "https://docs.googleusercontent.com/",
-    "https://spreadsheets.google.com/feeds/",
-    "https://ssl.gstatic.com/",
-    "https://www.googleapis.com/"
-  ],
 	"description": "vim - in your js",
 	"icons": {
 		"128": "vim_logo128.png"
