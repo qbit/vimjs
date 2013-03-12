@@ -639,6 +639,17 @@ VimWindow.prototype.goEOL = function()
 	this.moveCursor(1, 0);
 }
 
+VimWindow.prototype.goBOF = function() {
+	this.y = 0;
+	this.moveCursor(1, 0);
+}
+
+VimWindow.prototype.goEOF = function() {
+	this.y = this.buffer.lines.length;
+	this.moveCursor(1, 0);
+}
+
+
 
 VimWindow.prototype.skipRegex = function(regex)
 {

@@ -131,6 +131,20 @@ vim_cmds.push({
 });
 
 vim_cmds.push({
+	regex: /^gg$/,
+	callback: function(vim) {
+		vim.win.goBOF();
+	}
+});
+
+vim_cmds.push({
+	regex: /^G$/,
+	callback: function(vim) {
+		vim.win.goEOF();
+	}
+});
+
+vim_cmds.push({
 	regex: /^g([tT])$/,
 	callback: function(vim, result) {
 		/* result:
