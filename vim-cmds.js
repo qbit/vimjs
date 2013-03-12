@@ -18,6 +18,13 @@ vim_cmds.push({
 });
 
 vim_cmds.push({
+	regex: /^dt(.)$/,
+	callback: function(vim, result) {
+		vim.win.deleteTo( result[1] );
+	}
+});
+
+vim_cmds.push({
 	regex: /^i$/,
 	callback: function(vim) {
 		vim.mode = 'INSERT';

@@ -676,6 +676,9 @@ VimWindow.prototype.newLineBefore = function(ch)
 	this.moveCursor(0, 0);	// this is a must; for adapting cursor pos
 }
 
+VimWindow.prototype.deleteTo = function( ch ) {
+	this.buffer.deleteTo(this.x, this.y, ch );
+}
 
 VimWindow.prototype.killChar = function()
 {
@@ -770,6 +773,20 @@ VimBuffer.prototype.insertNewLine = function(x, y)
 	this.lines.splice(y+1, 0, newline);
 }
 
+
+VimBuffer.prototype.deleteTo = function(x, y, ch){
+	this.set.modified = true;
+	var line = this.lines[y];
+
+	var begin = line.slice( 0, x );
+	var end = line.slice( x );
+
+	end = end.split( ch );
+	delete end[0];
+
+	line = begin + end.join( ch );
+	this.lines[y] = line;
+}
 
 VimBuffer.prototype.killChar = function(x, y)
 {
