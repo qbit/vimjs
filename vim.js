@@ -387,8 +387,8 @@ Vim.prototype.execScript = function(script)
 		var fname = result[3];
 		this.fs.open(fname, function( result ) {
 			console.log( result );
-			if (file.constructor === String)
-				file = self.fs.create(fname);
+		//	if (file.constructor === String)
+		//		file = self.fs.create(fname);
 
 			self.win.buffer.name = fname;
 			self.win.buffer.setText(result);
@@ -618,9 +618,11 @@ VimWindow.prototype.search = function( str ) {
 	// result[1] = char
 	var result = this.buffer.search( this.x, this.y, str );
 	console.log( result );
-	this.y = result[0];
-	this.x = result[1] - 1;
-	this.moveCursor(1, 0);
+	if ( result ) {
+		this.y = result[0];
+		this.x = result[1] - 1;
+		this.moveCursor(1, 0);
+	}
 }
 
 
