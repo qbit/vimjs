@@ -275,11 +275,13 @@ FSLocalStorage.prototype.rm = function(path)
 
 // return opened file if succeed.
 // return error string when error occured.
-FSLocalStorage.prototype.open = function(path)
+FSLocalStorage.prototype.open = function(path, fn)
 {
 	var file = this.getFileByPath(path);
-	if (file instanceof FSDir) return "`" + path + "' is a dierctory.";
-	return file;
+	if (file instanceof FSDir) {
+		fn.call( "`" + path + "' is a dierctory." );
+	}
+	fn.call( null, file );
 }
 
 
